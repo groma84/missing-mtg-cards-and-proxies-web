@@ -12,9 +12,16 @@ export function parseOneMtgoLine(line) {
     }
 
     const [amount] = split;
+
+
     const name = split.slice(1).join(' ');
 
-    return {amount: parseInt(amount), name};
+    const splitCardsWithMultipleNames = name.split('/');
+
+    const [firstPart] = splitCardsWithMultipleNames;
+
+
+    return {amount: parseInt(amount), name: firstPart.trim()};
 }
 
 /**

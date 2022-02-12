@@ -45,13 +45,13 @@ export function getImageUrisForCard(localizedGetData) {
 
 function extractNecessaryData(amount, searchedName, allDataObj) {
     return allDataObj
-        .filter(x => x.name === searchedName)
+        .filter(x => x.name.startsWith(searchedName))
         .map(x => ({cardNumber: x.collector_number, set: x.set, amount}));
 }
 
 function getImageUris(amount, cardData) {
     const createArr = () => {
-        if (cardData.card_faces?.length) {
+        if (cardData.card_faces?.length && !cardData.image_uris) {
             return cardData.card_faces.map(x => x.image_uris.png);
         }
 

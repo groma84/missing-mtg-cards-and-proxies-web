@@ -48,9 +48,10 @@ body {
 
   #proxy-images > img {
 
-    width: 6.3cm;
+    width: 6.28cm;
     height: 8.8cm;
 
-    margin-left: 1px;
+    margin-left: 0.05cm;
+    margin-right: 0.03cm;
   }
 }
