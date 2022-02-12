@@ -33,7 +33,8 @@ window.addEventListener('load', () => {
     });
 
     async function getImageUris(deck) {
-        const dataForLocalizedGet = await Promise.all(deck.map(card => getDataByName(card.name)))
+        const withoutLands = deck.filter(c => !['Mountain', 'Forest', 'Island', 'Plains', 'Swamp'].includes(c.name));
+        const dataForLocalizedGet = await Promise.all(withoutLands.map(card => getDataByName(card.amount, card.name)))
         const imageUris = await Promise.all(dataForLocalizedGet.map(card => getImageUrisForCard(card)));
 
         return imageUris.flat();

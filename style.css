@@ -23,3 +23,34 @@ body {
   background-color: darkgreen;
   color: white;
 }
+
+#proxy-images {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#proxy-images > img {
+  max-width: 16rem;
+}
+
+@media print {
+  #form {
+    display: none;
+  }
+
+  #proxy-images {
+    break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    break-inside: avoid; /* or 'auto' */
+
+    display: block;
+  }
+
+  #proxy-images > img {
+
+    width: 6.3cm;
+    height: 8.8cm;
+
+    margin-left: 1px;
+  }
+}
