@@ -1,0 +1,25 @@
+body {
+  font-size: 18px;
+}
+
+#form {
+  margin: auto;
+  max-width: 30rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#form ul {
+  list-style: none;
+}
+
+#form ul > li {
+  margin-top: 1rem;
+}
+
+.submit-button {
+  padding: 0.5rem;
+  background-color: darkgreen;
+  color: white;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Missing Magic Cards</title>
+</head>
+<body>
+<div id="app">
+    <form action="" id="form">
+        <ul>
+            <li>
+                <label for="deck">Gewünschtes Deck MTGO Format</label>
+                <textarea id="deck" cols="50" rows="20"></textarea>
+            </li>
+
+            <li>
+                <input type="checkbox" id="localstorage">
+                <label for="localstorage">Eigene Karten aus LocalStorage laden</label>
+            </li>
+
+            <li>
+                <label for="library">Eigene Karten DragonShield Cardscanner Format</label>
+                <textarea id="library" cols="50" rows="20"></textarea>
+                <button type="button" id="store-in-localstorage">Eigene Karten in LocalStorage speichern</button>
+            </li>
+
+            <li>
+                <button type="submit" class="submit-button">Differenz bilden</button>
+            </li>
+
+            <li>
+                <label for="output">Noch benötigte Karten</label>
+                <textarea id="output" cols="50" rows="20"></textarea>
+            </li>
+        </ul>
+
+    </form>
+
+
+</div>
+<script type="module" src="/main.js"></script>
+</body>
+</html>
