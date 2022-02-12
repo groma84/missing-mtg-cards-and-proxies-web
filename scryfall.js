@@ -3,34 +3,50 @@ const searchUrl = `${apiUrl}search`;
 
 /**
  * Fetches the first found card's useful data we need to access the localized card info
- * @param name
  */
 export function getDataByName(amount, name) {
     // https://api.scryfall.com/cards/search?q=Battlefield%20Raptor&order=release
-    return fetch(`${searchUrl}?order=release&q=${name}`)
+    return fetch(`${searchUrl}?order=release&unique=prints&q=${name}`)
         .then(res => res.json())
-        .then(data => extractNecessaryData(amount, data.data));
+        .then(data => extractNecessaryData(amount, name, data.data));
 }
 
+/**
+ * Gets the localized image uris if available
+ * @param localizedGetData
+ */
 export function getImageUrisForCard(localizedGetData) {
-    // https://api.scryfall.com/cards/xln/96/de
-    const url = `${apiUrl}${localizedGetData.set}/${localizedGetData.cardNumber}/de`;
-    return fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            if (data.code === "not_found") {
-                // get the english card instead of the german one
-                return fetch(`${apiUrl}${localizedGetData.set}/${localizedGetData.cardNumber}`)
-                    .then(res => res.json())
-                    .then(data => getImageUris(localizedGetData.amount, data));
-            } else {
-                return getImageUris(localizedGetData.amount, data);
-            }
-        });
+    const amount = localizedGetData[0].amount; // always the same anyway
+
+    const getUris = (idx, set, cardNumber) => {
+        const startUri = `${apiUrl}${set}/${cardNumber}`;
+
+        return fetch(`${startUri}/de`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === "not_found") {
+                    if (idx < localizedGetData.length) {
+                        const nextIndex = idx + 1;
+                        return getUris(nextIndex, localizedGetData[idx].set, localizedGetData[idx].cardNumber);
+                    } else {
+                        // get the english card instead of the german one as final fallback
+                        return fetch(`${startUri}/en`)
+                            .then(res => res.json())
+                            .then(data => getImageUris(amount, data));
+                    }
+                } else {
+                    return getImageUris(amount, data);
+                }
+            });
+    }
+
+    return getUris(0, localizedGetData[0].set, localizedGetData[0].cardNumber)
 }
 
-function extractNecessaryData(amount, allDataObj) {
-    return {cardNumber: allDataObj[0].collector_number, set: allDataObj[0].set, amount};
+function extractNecessaryData(amount, searchedName, allDataObj) {
+    return allDataObj
+        .filter(x => x.name === searchedName)
+        .map(x => ({cardNumber: x.collector_number, set: x.set, amount}));
 }
 
 function getImageUris(amount, cardData) {
