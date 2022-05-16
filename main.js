@@ -17,6 +17,7 @@ window.addEventListener('load', () => {
     const outputEle = document.querySelector('#output');
     const storeInLocalStorageButton = document.querySelector('#store-in-localstorage');
     const createProxiesButton = document.querySelector('#create-proxies');
+    const convertToMtgoFormatButton = document.querySelector('#convert-to-mgto-format');
     const proxyImages = document.querySelector('#proxy-images');
 
     let useLocalStorage = !!checkbox.checked;
@@ -39,6 +40,12 @@ window.addEventListener('load', () => {
 
         return imageUris.flat();
     }
+
+    convertToMtgoFormatButton.addEventListener('click', () => {
+        const dragonShieldCardScannerFormatText = deckEle.value.split('\n');
+        const parsedDeck = parseLibraryFile(dragonShieldCardScannerFormatText);
+        deckEle.value = parsedDeck.map(formatCard).join('\n');
+    });
 
     createProxiesButton.addEventListener('click', () => {
         const deckText = deckEle.value.split('\n');
