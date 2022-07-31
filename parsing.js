@@ -32,13 +32,12 @@ export function parseOneMtgoLine(line) {
 export function parseOneDragonShieldLine(line) {
     const split = line.split(',');
 
-    // we have at least the amount, one for the name, and 6 info columns
-    if (split.length < 8) {
+    if (split.length < 14) {
         return undefined;
     }
 
-    const [amount] = split;
-    const name = split.slice(1, split.length - 6).join(',').trim();
+    const [_, amount] = split;
+    const name = split.slice(3, split.length - 11).join(',').replaceAll('"', '').trim();
 
     return {amount: parseInt(amount), name};
 }
@@ -60,6 +59,7 @@ export function parseDeckFile(lines) {
  */
 export function parseLibraryFile(lines) {
     return lines
+        .slice(2)
         .filter(s => !!s)
         .map(parseOneDragonShieldLine)
         .filter(co => !!co);

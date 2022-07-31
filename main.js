@@ -26,9 +26,10 @@ window.addEventListener('load', () => {
         libraryEle.disabled = useLocalStorage;
     });
 
-    storeInLocalStorageButton.addEventListener('click', () => {
+    storeInLocalStorageButton.addEventListener('click', async () => {
         const libraryText = libraryEle.value.split('\n');
-        const cards = combineCardsByName(parseLibraryFile(libraryText));
+        const cardsParsed = await parseLibraryFile(libraryText);
+        const cards = combineCardsByName(cardsParsed);
 
         localStorage.setItem(localStorageKey, JSON.stringify(cards));
     });
@@ -41,9 +42,9 @@ window.addEventListener('load', () => {
         return imageUris.flat();
     }
 
-    convertToMtgoFormatButton.addEventListener('click', () => {
+    convertToMtgoFormatButton.addEventListener('click', async () => {
         const dragonShieldCardScannerFormatText = deckEle.value.split('\n');
-        const parsedDeck = parseLibraryFile(dragonShieldCardScannerFormatText);
+        const parsedDeck = await parseLibraryFile(dragonShieldCardScannerFormatText);
         deckEle.value = parsedDeck.map(formatCard).join('\n');
     });
 
@@ -62,7 +63,7 @@ window.addEventListener('load', () => {
         });
     });
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -73,9 +74,9 @@ window.addEventListener('load', () => {
 
         let library;
         if (!useLocalStorage) {
-            library = parseLibraryFile(libraryText);
+            library = await parseLibraryFile(libraryText);
         } else {
-            library = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+            library = await JSON.parse(localStorage.getItem(localStorageKey)) || [];
         }
 
         const missingCards = getMissingCards(combineCardsByName(deck), combineCardsByName(library));
