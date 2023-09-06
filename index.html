@@ -11,7 +11,7 @@
     <form action="" id="form">
         <ul>
             <li>
-                <label for="deck">Gewünschtes Deck MTGO Format (für Proxies) oder im DragonShield Cardscanner Format für Konvertierung zu MTGO format</label>
+                <label for="deck">Gewünschtes Deck MTGO Format (für Proxies oder direkten Vergleich) oder im DragonShield Cardscanner Format für Konvertierung zu MTGO format</label>
                 <textarea id="deck" cols="50" rows="20"></textarea>
             </li>
 
@@ -22,17 +22,28 @@
             </li>
 
             <li>
+                <hr>
                 <input type="checkbox" id="localstorage">
                 <label for="localstorage">Eigene Karten aus LocalStorage laden</label>
             </li>
 
             <li>
-                <label for="library">Eigene Karten DragonShield Cardscanner Format</label>
+                <label for="format-switch">Textfeld-Format wählen</label>
+                <br />
+                <input type="radio" id="dragonshield" name="format" value="dragonshield" checked required />
+                <label for="dragonshield">DragonShield Cardscanner</label>
+                <br />
+                <input type="radio" id="mtgo" name="format" value="mtgo" />
+                <label for="dragonshield">MTGO</label>
+            </li>
+            <li>
+                <label for="library">Eigene Karten im entsprechenden Format</label>
                 <textarea id="library" cols="50" rows="20"></textarea>
                 <button type="button" id="store-in-localstorage">Eigene Karten in LocalStorage speichern</button>
             </li>
 
             <li>
+                <hr>
                 <button type="submit" class="submit-button">Differenz bilden</button>
             </li>
 
