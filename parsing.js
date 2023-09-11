@@ -4,22 +4,18 @@
  * @param line
  */
 export function parseOneMtgoLine(line) {
-    const split = line.split(' ');
+    const withOnlySingleWhitespaces = line.replace(/\s+/g, ' ')
+    const split = withOnlySingleWhitespaces.split(' ');
 
-    // we need exactle the amount and the name
+    // we need exactly the amount and the name
     if (split.length < 2) {
         return undefined;
     }
 
     const [amount] = split;
-
-
     const name = split.slice(1).join(' ');
-
     const splitCardsWithMultipleNames = name.split('/');
-
     const [firstPart] = splitCardsWithMultipleNames;
-
 
     return {amount: parseInt(amount), name: firstPart.trim()};
 }
